@@ -16,5 +16,14 @@ namespace SpaceShooter3
             X = x;
             Y = y;
         }
+
+        public static Position ComputePosition(Container container)
+        {
+            Random random = new Random();
+            return new Position(
+                random.Next(container.Width.X1, container.Width.X2),
+                random.Next(container.Height.X1, container.Height.X2)
+                );
+        }
     }
 }

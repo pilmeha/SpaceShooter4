@@ -23,6 +23,25 @@ namespace SpaceShooter3
         private KeyboardState keyBoardCurrent;
         private KeyboardState keyBoardOld;
 
+        private Texture2D heartTexture;
+        private Heart heart;
+
+        private int score = 0;
+        public int Score
+        {
+            get
+            {
+                return score;
+            }
+            set
+            {
+                if (value < 0)
+                    score = 0;
+                else
+                    score = value;
+            }
+        }
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -43,6 +62,7 @@ namespace SpaceShooter3
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
             splashScreenTexture = Content.Load<Texture2D>("Images/background");
             SplashScreen.Backgorund = splashScreenTexture;
             bigFont = Content.Load<SpriteFont>("Fonts/bigFont");
@@ -61,6 +81,19 @@ namespace SpaceShooter3
                     ),
                 container
                 );
+
+            heartTexture = Content.Load<Texture2D>("Images/heart");
+            heart = new Heart(
+                heartTexture,
+                new Rectangle(
+                    0,
+                    0,
+                    heartTexture.Width,
+                    heartTexture.Height
+                    ),
+                Position.ComputePosition(container)
+                );
+
         }
 
 
@@ -75,13 +108,19 @@ namespace SpaceShooter3
                     if (Keyboard.GetState().IsKeyDown(Keys.Enter)) 
                         state = State.Game;
 
-                    if ((GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) && keyBoardOld.IsKeyUp(Keys.Escape))
+                    if (Keyboard.GetState().IsKeyDown(Keys.Escape) && keyBoardOld.IsKeyUp(Keys.Escape))
                         Exit();
                     break;
 
                 case State.Game:
                     if (Keyboard.GetState().IsKeyDown(Keys.Escape) && keyBoardOld.IsKeyUp(Keys.Escape)) 
                         state = State.SplashScreen;
+
+                    if (heart.WasEaten)
+                    {
+                        heart.SetPosition(Position.ComputePosition(container));
+                        heart.WasEaten = false;
+                    }
 
                     if (Keyboard.GetState().IsKeyDown(Keys.A) || Keyboard.GetState().IsKeyDown(Keys.Left))
                         spaceShip.Left();
@@ -94,6 +133,13 @@ namespace SpaceShooter3
 
                     if (Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down))
                         spaceShip.Down();
+
+                    if (spaceShip.Rectangle.Intersects(heart.Rectangle))
+                    {
+                        heart.WasEaten = true;
+                        Score++;
+                    }
+                    
                     break;
             }
             keyBoardOld = keyBoardCurrent;
@@ -111,7 +157,14 @@ namespace SpaceShooter3
                     break;
 
                 case State.Game:
+                    _spriteBatch.DrawString(
+                        smallFont, 
+                        $"Hearts count: {Score}",
+                        new Vector2(10, 5),
+                        Color.White
+                        );
                     spaceShip.Draw(gameTime, _spriteBatch);
+                    _spriteBatch.Draw(heart.Texture, heart.Rectangle, Color.White);
                     break;
             }
             _spriteBatch.End();
