@@ -81,6 +81,13 @@ namespace SpaceShooter3
         {
             X = position.X;
             Y = position.Y;
+            var asteroidSize = Position.GetRandomInt(
+                textureAsteroid.Width / 5,
+                (int)(textureAsteroid.Width * 1.5)
+                );
+            this.rectangle.Width = asteroidSize;
+            this.rectangle.Height = asteroidSize;
+
         }
     }
 }

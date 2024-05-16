@@ -192,14 +192,18 @@ namespace SpaceShooter3
 
                     if (countAsteroids >= 2)
                     {
+                        var asteroidSize = Position.GetRandomInt(
+                            textureAsteroid.Width / 5,
+                            (int)(textureAsteroid.Width * 1.5)
+                            );
                         asteroids.Add(new Asteroid(
                         textureBoom,
                         textureAsteroid,
                         new Rectangle(
                             0,
                             0,
-                            textureAsteroid.Width,
-                            textureAsteroid.Height
+                            asteroidSize,
+                            asteroidSize
                             ),
                         Position.CumputePositionForAsteroid(container),
                         container
