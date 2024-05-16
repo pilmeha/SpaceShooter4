@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SpaceShooter3
 {
@@ -41,6 +43,11 @@ namespace SpaceShooter3
                     score = value;
             }
         }
+
+        private Texture2D textureBoom;
+        private Texture2D textureAsteroid;
+        private List<Asteroid> asteroids = new List<Asteroid>();
+        private int countAsteroids = 0;
 
         public Game1()
         {
@@ -91,12 +98,12 @@ namespace SpaceShooter3
                     heartTexture.Width,
                     heartTexture.Height
                     ),
-                Position.ComputePosition(container)
+                Position.ComputePositionForHeart(container)
                 );
 
+            textureBoom = Content.Load<Texture2D>("Images/boomAsteroid");
+            textureAsteroid = Content.Load<Texture2D>("Images/asteroid");
         }
-
-
 
         protected override void Update(GameTime gameTime)
         {
@@ -118,7 +125,7 @@ namespace SpaceShooter3
 
                     if (heart.WasEaten)
                     {
-                        heart.SetPosition(Position.ComputePosition(container));
+                        heart.SetPosition(Position.ComputePositionForHeart(container));
                         heart.WasEaten = false;
                     }
 
@@ -138,8 +145,36 @@ namespace SpaceShooter3
                     {
                         heart.WasEaten = true;
                         Score++;
+                        countAsteroids++;
                     }
-                    
+
+                    if (countAsteroids >= 2)
+                    {
+                        asteroids.Add(new Asteroid(
+                        textureBoom,
+                        textureAsteroid,
+                        new Rectangle(
+                            0,
+                            0,
+                            textureAsteroid.Width,
+                            textureAsteroid.Height
+                            ),
+                        Position.CumputePositionForAsteroid(container),
+                        container
+                        ));
+                        countAsteroids = 0;
+                    }
+
+                    foreach (var asteroid in asteroids)
+                    {
+                        asteroid.Update();
+                        if (spaceShip.Rectangle.Intersects(asteroid.Rectangle) && asteroid.Intersected == false)
+                        {
+                            Score -= 2;
+                            asteroid.Intersected = true;
+                        }
+                    }
+
                     break;
             }
             keyBoardOld = keyBoardCurrent;
@@ -163,11 +198,29 @@ namespace SpaceShooter3
                         new Vector2(10, 5),
                         Color.White
                         );
+
                     spaceShip.Draw(gameTime, _spriteBatch);
+
                     _spriteBatch.Draw(heart.Texture, heart.Rectangle, Color.White);
+
+                    foreach (var asteroid in asteroids)
+                    {
+                        _spriteBatch.Draw(
+                            asteroid.Texture,
+                            asteroid.Rectangle,
+                            Color.White
+                            );
+                    }
+
                     break;
             }
             _spriteBatch.End();
+
+            foreach (var asteroid in asteroids.Reverse<Asteroid>())
+            {
+                if (asteroid.Intersected)
+                    asteroids.Remove(asteroid);
+            }
 
             base.Draw(gameTime);
         }
