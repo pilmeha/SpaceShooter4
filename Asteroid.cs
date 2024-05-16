@@ -6,7 +6,7 @@ namespace SpaceShooter3
     internal class Asteroid
     {
         public Container Container { get; set; }
-        public int speed = 5;
+        private int speed = 5;
         private Texture2D textureBoom;
         private Texture2D textureAsteroid;
 

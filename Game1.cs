@@ -53,15 +53,9 @@ namespace SpaceShooter3
         private List<Fire> fires = new List<Fire>();
 
         private int countFires = 10;
-        private bool CageIsEnable
-        {
-            get
-            {
-                if (countFires > 0)
-                    return true;
-                return false;
-            }
-        }
+
+        private Texture2D starTexture;
+        private Star[] stars = new Star[50];
 
         public Game1()
         {
@@ -119,6 +113,15 @@ namespace SpaceShooter3
             textureAsteroid = Content.Load<Texture2D>("Images/asteroid");
 
             textureFire = Content.Load<Texture2D>("Images/fire");
+
+            starTexture = Content.Load<Texture2D>("Images/star");
+            Star.Texture = starTexture;
+            Star.Container = container;
+            for (int i = 0; i < stars.Length; i++)
+            {
+                stars[i] = new Star();
+            }
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -138,6 +141,9 @@ namespace SpaceShooter3
                 case State.Game:
                     if (keyBoardCurrent.IsKeyDown(Keys.Escape) && keyBoardOld.IsKeyUp(Keys.Escape)) 
                         state = State.SplashScreen;
+
+                    foreach (var star in stars)
+                        star.Update();
 
                     if (heart.WasEaten)
                     {
@@ -233,7 +239,8 @@ namespace SpaceShooter3
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            //GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
             switch (state)
             {
@@ -242,6 +249,12 @@ namespace SpaceShooter3
                     break;
 
                 case State.Game:
+
+                    foreach (var star in stars)
+                    {
+                        _spriteBatch.Draw(Star.Texture, star.PositionVector, star.Color);
+                    }
+
                     _spriteBatch.DrawString(
                         smallFont, 
                         $"Hearts count: {Score} | In flight: {fires.Count} | Count fires {countFires}",
