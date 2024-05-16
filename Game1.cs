@@ -49,6 +49,20 @@ namespace SpaceShooter3
         private List<Asteroid> asteroids = new List<Asteroid>();
         private int countAsteroids = 0;
 
+        private Texture2D textureFire;
+        private List<Fire> fires = new List<Fire>();
+
+        private int countFires = 10;
+        private bool CageIsEnable
+        {
+            get
+            {
+                if (countFires > 0)
+                    return true;
+                return false;
+            }
+        }
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -82,8 +96,8 @@ namespace SpaceShooter3
                 spaceShipTexture, 
                 new Rectangle(
                     0, 
-                    _graphics.PreferredBackBufferHeight / 2, 
-                    spaceShipTexture.Width, 
+                    _graphics.PreferredBackBufferHeight / 2,
+                    spaceShipTexture.Width,
                     spaceShipTexture.Height
                     ),
                 container
@@ -103,6 +117,8 @@ namespace SpaceShooter3
 
             textureBoom = Content.Load<Texture2D>("Images/boomAsteroid");
             textureAsteroid = Content.Load<Texture2D>("Images/asteroid");
+
+            textureFire = Content.Load<Texture2D>("Images/fire");
         }
 
         protected override void Update(GameTime gameTime)
@@ -112,15 +128,15 @@ namespace SpaceShooter3
             {
                 case State.SplashScreen:
                     SplashScreen.Update();
-                    if (Keyboard.GetState().IsKeyDown(Keys.Enter)) 
+                    if (keyBoardCurrent.IsKeyDown(Keys.Enter)) 
                         state = State.Game;
 
-                    if (Keyboard.GetState().IsKeyDown(Keys.Escape) && keyBoardOld.IsKeyUp(Keys.Escape))
+                    if (keyBoardCurrent.IsKeyDown(Keys.Escape) && keyBoardOld.IsKeyUp(Keys.Escape))
                         Exit();
                     break;
 
                 case State.Game:
-                    if (Keyboard.GetState().IsKeyDown(Keys.Escape) && keyBoardOld.IsKeyUp(Keys.Escape)) 
+                    if (keyBoardCurrent.IsKeyDown(Keys.Escape) && keyBoardOld.IsKeyUp(Keys.Escape)) 
                         state = State.SplashScreen;
 
                     if (heart.WasEaten)
@@ -129,17 +145,37 @@ namespace SpaceShooter3
                         heart.WasEaten = false;
                     }
 
-                    if (Keyboard.GetState().IsKeyDown(Keys.A) || Keyboard.GetState().IsKeyDown(Keys.Left))
+                    if (keyBoardCurrent.IsKeyDown(Keys.A) || Keyboard.GetState().IsKeyDown(Keys.Left))
                         spaceShip.Left();
 
-                    if (Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right))
+                    if (keyBoardCurrent.IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right))
                         spaceShip.Right();
 
-                    if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up))
+                    if (keyBoardCurrent.IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up))
                         spaceShip.Up();
 
-                    if (Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down))
+                    if (keyBoardCurrent.IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down))
                         spaceShip.Down();
+
+                    if (keyBoardCurrent.IsKeyDown(Keys.LeftShift) && keyBoardOld.IsKeyUp(Keys.LeftShift) &&  countFires > 0)
+                    {
+                        fires.Add(new Fire(
+                            textureFire,
+                            new Rectangle(
+                                spaceShip.X + 95,
+                                spaceShip.Y + 25,
+                                textureFire.Width,
+                                textureFire.Height
+                                )
+                            ));
+                        countFires--;
+                    }
+
+                    if (keyBoardCurrent.IsKeyDown(Keys.Tab) && keyBoardOld.IsKeyUp(Keys.Tab) && Score >= 5)
+                    {
+                        countFires += 10;
+                        Score -= 5;
+                    }
 
                     if (spaceShip.Rectangle.Intersects(heart.Rectangle))
                     {
@@ -168,11 +204,25 @@ namespace SpaceShooter3
                     foreach (var asteroid in asteroids)
                     {
                         asteroid.Update();
+                        foreach (var fire in fires)
+                        {
+                            if (fire.Rectangle.Intersects(asteroid.Rectangle)) 
+                            {
+                                fire.Intersected = true;
+                                asteroid.Intersected = true;
+                            }
+                        }
                         if (spaceShip.Rectangle.Intersects(asteroid.Rectangle) && asteroid.Intersected == false)
                         {
                             Score -= 2;
                             asteroid.Intersected = true;
                         }
+                    }
+
+                    foreach (var fire in fires.Reverse<Fire>())
+                    {
+                        if (fire.IsOutOfScreen(container))
+                            fires.Remove(fire);
                     }
 
                     break;
@@ -194,7 +244,7 @@ namespace SpaceShooter3
                 case State.Game:
                     _spriteBatch.DrawString(
                         smallFont, 
-                        $"Hearts count: {Score}",
+                        $"Hearts count: {Score} | In flight: {fires.Count} | Count fires {countFires}",
                         new Vector2(10, 5),
                         Color.White
                         );
@@ -209,6 +259,21 @@ namespace SpaceShooter3
                             asteroid.Texture,
                             asteroid.Rectangle,
                             Color.White
+                            );
+                    }
+
+                    foreach (var fire in fires)
+                    {
+                        fire.Update();
+                        _spriteBatch.Draw(
+                            fire.Texture,
+                            fire.Rectangle,
+                            null,
+                            Color.White,
+                            0f,
+                            new Vector2(fire.Texture.Width / 2, fire.Texture.Height / 2),
+                            SpriteEffects.None,
+                            0f
                             );
                     }
 
