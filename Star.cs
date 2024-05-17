@@ -26,7 +26,6 @@ namespace SpaceShooter3
 
         public Star()
         {
-            speed = Position.GetRandomInt(1, 4);
             RandomSet();
         }
 
@@ -39,7 +38,7 @@ namespace SpaceShooter3
 
         public void RandomSet()
         {
-
+            speed = Position.GetRandomInt(1, 4);
             positionVector = new Vector2(
                 Position.GetRandomInt(Container.Width.X2, Container.Width.X2 + 300), 
                 Position.GetRandomInt(0, Container.Height.X2)

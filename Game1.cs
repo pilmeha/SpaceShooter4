@@ -16,6 +16,7 @@ namespace SpaceShooter3
         private Texture2D splashScreenTexture;
         private SpriteFont bigFont;
         private SpriteFont smallFont;
+        private SpriteFont copyrightFont;
 
         private Container container;
 
@@ -57,6 +58,17 @@ namespace SpaceShooter3
         private Texture2D starTexture;
         private Star[] stars = new Star[50];
 
+        //private MenuState menuState = MenuState.New;
+        private SplashScreen splashScreen = new SplashScreen();
+
+        //private int screenWidth;
+        //private int screenHeight;
+        //private string gameTitle = "SpaceShooter!";
+        //private string gameNew = "New";
+        //private string gameResume = "Resume";
+        //private string gameExit = "Exit";
+        //private string gameCopyright = "(c) Ayur Garmaev, 2024";
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -79,11 +91,13 @@ namespace SpaceShooter3
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             splashScreenTexture = Content.Load<Texture2D>("Images/background");
-            SplashScreen.Backgorund = splashScreenTexture;
+            splashScreen.Backgorund = splashScreenTexture;
             bigFont = Content.Load<SpriteFont>("Fonts/bigFont");
-            SplashScreen.BigFont = bigFont;
+            splashScreen.BigFont = bigFont;
             smallFont = Content.Load<SpriteFont>("Fonts/smallFont");
-            SplashScreen.SmallFont = smallFont;
+            splashScreen.SmallFont = smallFont;
+            copyrightFont = Content.Load<SpriteFont>("Fonts/copyrightFont");
+            splashScreen.CopyrightFont = copyrightFont;
 
             spaceShipTexture = Content.Load<Texture2D>("Images/spaceShip");
             spaceShip = new SpaceShip(
@@ -130,18 +144,46 @@ namespace SpaceShooter3
             switch (state)
             {
                 case State.SplashScreen:
-                    SplashScreen.Update();
-                    if (keyBoardCurrent.IsKeyDown(Keys.Enter)) 
-                        state = State.Game;
+                    splashScreen.Update();
+                    //if (keyBoardCurrent.IsKeyDown(Keys.Enter)) 
+                    //    state = State.Game;
 
-                    if (keyBoardCurrent.IsKeyDown(Keys.Escape) && keyBoardOld.IsKeyUp(Keys.Escape))
-                        Exit();
+                    if (keyBoardCurrent.IsKeyDown(Keys.W) && keyBoardOld.IsKeyUp(Keys.W))
+                        splashScreen.OptionsCounter--;
+
+                    if (keyBoardCurrent.IsKeyDown(Keys.S) && keyBoardOld.IsKeyUp(Keys.S))
+                        splashScreen.OptionsCounter++;
+
+                    if (keyBoardCurrent.IsKeyDown(Keys.Enter) && keyBoardOld.IsKeyUp(Keys.Enter))
+                    {
+                        switch (splashScreen.MenuState)
+                        {
+                            case MenuState.New:
+                                StartNewGame();
+                                state = State.Game;
+                                break;
+
+                            case MenuState.Resume:
+                                if (splashScreen.StartedAtFirstTime == false)
+                                    state = State.Game;
+                                break;
+
+                            case MenuState.Exit:
+                                Exit();
+                                break;
+                        }
+                    }
+
+                    //if (keyBoardCurrent.IsKeyDown(Keys.Escape) && keyBoardOld.IsKeyUp(Keys.Escape))
+                    //    Exit();
                     break;
 
                 case State.Game:
                     if (keyBoardCurrent.IsKeyDown(Keys.Escape) && keyBoardOld.IsKeyUp(Keys.Escape)) 
+                    {
+                        splashScreen.OptionsCounter = 2;
                         state = State.SplashScreen;
-
+                    }
                     foreach (var star in stars)
                         star.Update();
 
@@ -249,7 +291,47 @@ namespace SpaceShooter3
             switch (state)
             {
                 case State.SplashScreen:
-                    SplashScreen.Draw(_spriteBatch, _graphics);
+                    splashScreen.Draw(_spriteBatch, _graphics);
+                    //_spriteBatch.Draw(
+                    //    SplashScreen.Backgorund,
+                    //    new Rectangle(0, 0, container.Width.X2, container.Width.X2),
+                    //    Color.White
+                    //    );
+
+                    //_spriteBatch.DrawString(
+                    //    bigFont,
+                    //    SplashScreen.GameTitle,
+                    //    new Vector2(
+                    //        (container.Width.X2 / 2),
+                    //        (container.Height.X2 / 2)
+                    //        ),
+                    //    SplashScreen.Color
+                    //    );
+
+                    //if (splashScreen.menuState == MenuState.New)
+                    //{
+                    //    _spriteBatch.DrawString(
+                    //        smallFont,
+                    //        SplashScreen.GameNew,
+                    //        new Vector2(
+                    //            (container.Width.X2 / 100) * 50,
+                    //            (container.Height.X2 / 100) * 78
+                    //            ),
+                    //        Color.Violet
+                    //        );
+                    //}
+                    //else
+                    //{
+                    //    _spriteBatch.DrawString(
+                    //        smallFont,
+                    //        SplashScreen.GameNew,
+                    //        new Vector2(
+                    //            (container.Width.X2 / 100) * 50,
+                    //            (container.Height.X2 / 100) * 78
+                    //            ),
+                    //        SplashScreen.Color
+                    //        );
+                    //}
                     break;
 
                 case State.Game:
@@ -260,7 +342,7 @@ namespace SpaceShooter3
                     }
 
                     _spriteBatch.DrawString(
-                        smallFont, 
+                        copyrightFont, 
                         $"Hearts count: {Score} | In flight: {fires.Count} | Count fires {countFires}",
                         new Vector2(10, 5),
                         Color.White
@@ -294,17 +376,39 @@ namespace SpaceShooter3
                             );
                     }
 
+                    foreach (var asteroid in asteroids.Reverse<Asteroid>())
+                    {
+                        if (asteroid.Intersected)
+                            asteroids.Remove(asteroid);
+                    }
+
                     break;
             }
             _spriteBatch.End();
 
-            foreach (var asteroid in asteroids.Reverse<Asteroid>())
-            {
-                if (asteroid.Intersected)
-                    asteroids.Remove(asteroid);
-            }
-
             base.Draw(gameTime);
+        }
+
+        private void StartNewGame()
+        {
+            if (splashScreen.StartedAtFirstTime)
+                splashScreen.StartedAtFirstTime = false;
+
+            spaceShip.X = 0;
+            spaceShip.Y = _graphics.PreferredBackBufferHeight / 2;
+
+            countAsteroids = 0;
+            asteroids.Clear();
+
+            fires.Clear();
+            countFires = 10;
+
+            score = 0;
+
+            foreach (var star in stars)
+            {
+                star.RandomSet();
+            }
         }
     }
 }

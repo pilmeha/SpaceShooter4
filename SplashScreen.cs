@@ -1,28 +1,61 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpaceShooter3
 {
     internal class SplashScreen
     {
-        public static Texture2D Backgorund {  get; set; }
-        static int TimeCounter = 0;
-        static Color Color;
-        public static SpriteFont BigFont {  get; set; }
-        public static SpriteFont SmallFont { get; set; }
+        public Texture2D Backgorund {  get; set; }
+        private int timeCounter = 0;
+        private Color color;
+        public SpriteFont BigFont {  get; set; }
+        public SpriteFont SmallFont { get; set; }
+        public SpriteFont CopyrightFont { get; set; }
+        private string gameTitle = "SpaceShooter!";
+        private string gameNew = "New";
+        private string gameResume = "Resume";
+        private string gameExit = "Exit";
+        private string gameCopyright = "(c) Ayur Garmaev, 2024";
+        public MenuState MenuState { get; set; } = MenuState.New;
+        public bool StartedAtFirstTime { get; set; } = true;
 
-        public static void Update()
+        private int optionsCounter = 1;
+        public int OptionsCounter
         {
-            Color = Color.FromNonPremultiplied(255, 255, 255, TimeCounter % 256);
-            TimeCounter++;
+            get
+            {
+                return optionsCounter;
+            }
+            set
+            {
+                if (value > 3)
+                    optionsCounter = 3;
+
+                else if (value < 1)
+                    optionsCounter = 1;
+
+                else
+                    optionsCounter = value;
+
+                if (optionsCounter == 1)
+                    MenuState = MenuState.New;
+
+                else if (optionsCounter == 2)
+                    MenuState = MenuState.Resume;
+
+                else
+                    MenuState = MenuState.Exit;
+
+            }
         }
 
-        public static void Draw(SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
+        public void Update()
+        {
+            color = Color.FromNonPremultiplied(255, 255, 255, timeCounter % 256);
+            timeCounter++;
+        }
+
+        public void Draw(SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
         {
             spriteBatch.Draw(
                 Backgorund,
@@ -32,22 +65,123 @@ namespace SpaceShooter3
 
             spriteBatch.DrawString(
                 BigFont,
-                "SpaceShooter!",
+                gameTitle,
                 new Vector2(
                     (graphics.PreferredBackBufferWidth / 2),
                     (graphics.PreferredBackBufferHeight / 2)
                     ),
-                Color
+                color
                 );
 
+            //spriteBatch.DrawString(
+            //    SmallFont,
+            //    "Press Enter to start",
+            //    new Vector2(
+            //        (graphics.PreferredBackBufferWidth / 100) * 50,
+            //        (graphics.PreferredBackBufferHeight / 100) * 78
+            //        ),
+            //    Color
+            //    );
+
+
+            if (MenuState == MenuState.New)
+            {
+                spriteBatch.DrawString(
+                    SmallFont,
+                    gameNew,
+                    new Vector2(
+                        (graphics.PreferredBackBufferWidth / 100) * 50,
+                        (graphics.PreferredBackBufferHeight / 100) * 78
+                        ),
+                    Color.Violet
+                    );
+            }
+            else
+            {
+                spriteBatch.DrawString(
+                    SmallFont,
+                    gameNew,
+                    new Vector2(
+                        (graphics.PreferredBackBufferWidth / 100) * 50,
+                        (graphics.PreferredBackBufferHeight / 100) * 78
+                    ),
+                    color
+                    );
+            }
+
+            if (StartedAtFirstTime)
+            {
+                spriteBatch.DrawString(
+                    SmallFont,
+                    gameResume,
+                    new Vector2(
+                        (graphics.PreferredBackBufferWidth / 100) * 50,
+                        (graphics.PreferredBackBufferHeight / 100) * 86
+                        ),
+                    Color.Gray
+                    );
+            }
+            else
+            {
+                if (MenuState == MenuState.Resume)
+                {
+                    spriteBatch.DrawString(
+                        SmallFont,
+                        gameResume,
+                        new Vector2(
+                            (graphics.PreferredBackBufferWidth / 100) * 50,
+                            (graphics.PreferredBackBufferHeight / 100) * 86
+                            ),
+                        Color.Violet
+                        );
+                }
+                else
+                {
+                    spriteBatch.DrawString(
+                        SmallFont,
+                        gameResume,
+                        new Vector2(
+                            (graphics.PreferredBackBufferWidth / 100) * 50,
+                            (graphics.PreferredBackBufferHeight / 100) * 86
+                        ),
+                        color
+                        );
+                }
+            }
+
+            if (MenuState == MenuState.Exit)
+            {
+                spriteBatch.DrawString(
+                    SmallFont,
+                    gameExit,
+                    new Vector2(
+                        (graphics.PreferredBackBufferWidth / 100) * 50,
+                        (graphics.PreferredBackBufferHeight / 100) * 94
+                        ),
+                    Color.Red
+                    );
+            }
+            else
+            {
+                spriteBatch.DrawString(
+                    SmallFont,
+                    gameExit,
+                    new Vector2(
+                        (graphics.PreferredBackBufferWidth / 100) * 50,
+                        (graphics.PreferredBackBufferHeight / 100) * 94
+                    ),
+                    color
+                    );
+            }
+
             spriteBatch.DrawString(
-                SmallFont,
-                "Press Enter to start",
+                CopyrightFont,
+                gameCopyright,
                 new Vector2(
                     (graphics.PreferredBackBufferWidth / 100) * 50,
-                    (graphics.PreferredBackBufferHeight / 100) * 78
+                    (graphics.PreferredBackBufferHeight / 100) * 106
                     ),
-                Color
+                color
                 );
         }
     }

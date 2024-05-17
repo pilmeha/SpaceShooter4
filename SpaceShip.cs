@@ -6,7 +6,6 @@ namespace SpaceShooter3
     internal class SpaceShip
     {
         public Texture2D Texture { get; set; }
-        public Direction Direction { get; set; }
         public int Speed { get; set; } = 8;
         public Container Container { get; set; }
         private Rectangle rectangle;
