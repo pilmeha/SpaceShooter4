@@ -67,7 +67,7 @@ namespace SpaceShooter3
                 BigFont,
                 gameTitle,
                 new Vector2(
-                    (graphics.PreferredBackBufferWidth / 2),
+                    ((graphics.PreferredBackBufferWidth / 100) * 11),
                     (graphics.PreferredBackBufferHeight / 2)
                     ),
                 color
