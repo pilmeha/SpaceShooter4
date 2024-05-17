@@ -73,17 +73,6 @@ namespace SpaceShooter3
                 color
                 );
 
-            //spriteBatch.DrawString(
-            //    SmallFont,
-            //    "Press Enter to start",
-            //    new Vector2(
-            //        (graphics.PreferredBackBufferWidth / 100) * 50,
-            //        (graphics.PreferredBackBufferHeight / 100) * 78
-            //        ),
-            //    Color
-            //    );
-
-
             if (MenuState == MenuState.New)
             {
                 spriteBatch.DrawString(

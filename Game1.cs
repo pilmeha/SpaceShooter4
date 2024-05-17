@@ -58,16 +58,7 @@ namespace SpaceShooter3
         private Texture2D starTexture;
         private Star[] stars = new Star[50];
 
-        //private MenuState menuState = MenuState.New;
         private SplashScreen splashScreen = new SplashScreen();
-
-        //private int screenWidth;
-        //private int screenHeight;
-        //private string gameTitle = "SpaceShooter!";
-        //private string gameNew = "New";
-        //private string gameResume = "Resume";
-        //private string gameExit = "Exit";
-        //private string gameCopyright = "(c) Ayur Garmaev, 2024";
 
         public Game1()
         {
@@ -145,8 +136,6 @@ namespace SpaceShooter3
             {
                 case State.SplashScreen:
                     splashScreen.Update();
-                    //if (keyBoardCurrent.IsKeyDown(Keys.Enter)) 
-                    //    state = State.Game;
 
                     if (keyBoardCurrent.IsKeyDown(Keys.W) && keyBoardOld.IsKeyUp(Keys.W))
                         splashScreen.OptionsCounter--;
@@ -174,8 +163,6 @@ namespace SpaceShooter3
                         }
                     }
 
-                    //if (keyBoardCurrent.IsKeyDown(Keys.Escape) && keyBoardOld.IsKeyUp(Keys.Escape))
-                    //    Exit();
                     break;
 
                 case State.Game:
@@ -285,53 +272,12 @@ namespace SpaceShooter3
 
         protected override void Draw(GameTime gameTime)
         {
-            //GraphicsDevice.Clear(Color.CornflowerBlue);
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
             switch (state)
             {
                 case State.SplashScreen:
                     splashScreen.Draw(_spriteBatch, _graphics);
-                    //_spriteBatch.Draw(
-                    //    SplashScreen.Backgorund,
-                    //    new Rectangle(0, 0, container.Width.X2, container.Width.X2),
-                    //    Color.White
-                    //    );
-
-                    //_spriteBatch.DrawString(
-                    //    bigFont,
-                    //    SplashScreen.GameTitle,
-                    //    new Vector2(
-                    //        (container.Width.X2 / 2),
-                    //        (container.Height.X2 / 2)
-                    //        ),
-                    //    SplashScreen.Color
-                    //    );
-
-                    //if (splashScreen.menuState == MenuState.New)
-                    //{
-                    //    _spriteBatch.DrawString(
-                    //        smallFont,
-                    //        SplashScreen.GameNew,
-                    //        new Vector2(
-                    //            (container.Width.X2 / 100) * 50,
-                    //            (container.Height.X2 / 100) * 78
-                    //            ),
-                    //        Color.Violet
-                    //        );
-                    //}
-                    //else
-                    //{
-                    //    _spriteBatch.DrawString(
-                    //        smallFont,
-                    //        SplashScreen.GameNew,
-                    //        new Vector2(
-                    //            (container.Width.X2 / 100) * 50,
-                    //            (container.Height.X2 / 100) * 78
-                    //            ),
-                    //        SplashScreen.Color
-                    //        );
-                    //}
                     break;
 
                 case State.Game:
@@ -343,7 +289,7 @@ namespace SpaceShooter3
 
                     _spriteBatch.DrawString(
                         copyrightFont, 
-                        $"Hearts count: {Score} | In flight: {fires.Count} | Count fires {countFires}",
+                        $"Hearts count: {Score} | Count fires {countFires}",
                         new Vector2(10, 5),
                         Color.White
                         );
