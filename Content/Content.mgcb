@@ -160,3 +160,21 @@
 /processorParam:Quality=Best
 /build:Sounds/menuSound.mp3
 
+#begin Sounds/travaUDomaMusic.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/travaUDomaMusic.mp3
+
+#begin Sounds/travaUDomaPlus.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/travaUDomaPlus.mp3
+
+#begin Sounds/VisitorsMusic.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/VisitorsMusic.mp3
+

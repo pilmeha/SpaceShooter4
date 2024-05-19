@@ -71,6 +71,8 @@ namespace SpaceShooter3
         private SoundEffect heartSound;
         private SoundEffect buySound;
 
+        private Song gameSong;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -138,7 +140,6 @@ namespace SpaceShooter3
                 stars[i] = new Star();
             }
 
-            //menuSong = Content.Load<Song>("Sounds/menuSound");
             fireSound = Content.Load<SoundEffect>("Sounds/fireSound");
             boomSound = Content.Load<SoundEffect>("Sounds/boomSound");
             menuSound = Content.Load<SoundEffect>("Sounds/menuSound");
@@ -146,11 +147,7 @@ namespace SpaceShooter3
             intersectedSound = Content.Load<SoundEffect>("Sounds/intersectedSound");
             heartSound = Content.Load<SoundEffect>("Sounds/heartSound");
             buySound = Content.Load<SoundEffect>("Sounds/buySound");
-
-            
-            //MediaPlayer.IsRepeating = true;
-            //MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged; 
-
+            gameSong = Content.Load<Song>("Sounds/travaUDomaPlus");
         }
 
         protected override void Update(GameTime gameTime)
@@ -159,11 +156,8 @@ namespace SpaceShooter3
             switch (state)
             {
                 case State.SplashScreen:
-                    
+                    MediaPlayer.Play(gameSong);
                     splashScreen.Update();
-
-                    //if (true)
-                    //    MediaPlayer.Play(menuSong);
 
                     if (keyBoardCurrent.IsKeyDown(Keys.W) && keyBoardOld.IsKeyUp(Keys.W))
                     {
