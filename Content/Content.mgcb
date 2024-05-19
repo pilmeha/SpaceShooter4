@@ -118,3 +118,45 @@
 /processorParam:TextureFormat=Color
 /build:Images/star.png
 
+#begin Sounds/boomSound.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/boomSound.mp3
+
+#begin Sounds/buySound.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/buySound.mp3
+
+#begin Sounds/enterSound.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/enterSound.mp3
+
+#begin Sounds/fireSound.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/fireSound.mp3
+
+#begin Sounds/heartSound.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/heartSound.mp3
+
+#begin Sounds/intersectedSound.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/intersectedSound.mp3
+
+#begin Sounds/menuSound.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/menuSound.mp3
+

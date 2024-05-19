@@ -28,24 +28,23 @@ namespace SpaceShooter3
             }
             set
             {
-                if (value > 3)
+                if (value > 3)   
                     optionsCounter = 3;
 
-                else if (value < 1)
+                else if (value < 1)  
                     optionsCounter = 1;
 
-                else
+                else   
                     optionsCounter = value;
 
-                if (optionsCounter == 1)
-                    MenuState = MenuState.New;
+                if (optionsCounter == 1)                   
+                    MenuState = MenuState.New;                   
 
-                else if (optionsCounter == 2)
+                else if (optionsCounter == 2) 
                     MenuState = MenuState.Resume;
 
                 else
-                    MenuState = MenuState.Exit;
-
+                    MenuState = MenuState.Exit;                  
             }
         }
 

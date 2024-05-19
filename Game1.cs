@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -59,6 +61,15 @@ namespace SpaceShooter3
         private Star[] stars = new Star[50];
 
         private SplashScreen splashScreen = new SplashScreen();
+
+        //private Song menuSong;
+        private SoundEffect fireSound;
+        private SoundEffect boomSound;
+        private SoundEffect menuSound;
+        private SoundEffect enterSound;
+        private SoundEffect intersectedSound;
+        private SoundEffect heartSound;
+        private SoundEffect buySound;
 
         public Game1()
         {
@@ -127,6 +138,19 @@ namespace SpaceShooter3
                 stars[i] = new Star();
             }
 
+            //menuSong = Content.Load<Song>("Sounds/menuSound");
+            fireSound = Content.Load<SoundEffect>("Sounds/fireSound");
+            boomSound = Content.Load<SoundEffect>("Sounds/boomSound");
+            menuSound = Content.Load<SoundEffect>("Sounds/menuSound");
+            enterSound = Content.Load<SoundEffect>("Sounds/enterSound");
+            intersectedSound = Content.Load<SoundEffect>("Sounds/intersectedSound");
+            heartSound = Content.Load<SoundEffect>("Sounds/heartSound");
+            buySound = Content.Load<SoundEffect>("Sounds/buySound");
+
+            
+            //MediaPlayer.IsRepeating = true;
+            //MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged; 
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -135,29 +159,45 @@ namespace SpaceShooter3
             switch (state)
             {
                 case State.SplashScreen:
+                    
                     splashScreen.Update();
 
+                    //if (true)
+                    //    MediaPlayer.Play(menuSong);
+
                     if (keyBoardCurrent.IsKeyDown(Keys.W) && keyBoardOld.IsKeyUp(Keys.W))
-                        splashScreen.OptionsCounter--;
+                    {
+                        menuSound.Play();
+                        splashScreen.OptionsCounter--; 
+                    }
 
                     if (keyBoardCurrent.IsKeyDown(Keys.S) && keyBoardOld.IsKeyUp(Keys.S))
+                    {
+                        menuSound.Play();
                         splashScreen.OptionsCounter++;
+                    }
 
                     if (keyBoardCurrent.IsKeyDown(Keys.Enter) && keyBoardOld.IsKeyUp(Keys.Enter))
                     {
+                        
                         switch (splashScreen.MenuState)
                         {
                             case MenuState.New:
+                                enterSound.Play();
                                 StartNewGame();
                                 state = State.Game;
                                 break;
 
                             case MenuState.Resume:
                                 if (splashScreen.StartedAtFirstTime == false)
-                                    state = State.Game;
+                                {
+                                    enterSound.Play();
+                                    state = State.Game; 
+                                }
                                 break;
 
                             case MenuState.Exit:
+                                enterSound.Play();
                                 Exit();
                                 break;
                         }
@@ -168,6 +208,7 @@ namespace SpaceShooter3
                 case State.Game:
                     if (keyBoardCurrent.IsKeyDown(Keys.Escape) && keyBoardOld.IsKeyUp(Keys.Escape)) 
                     {
+                        enterSound.Play();
                         splashScreen.OptionsCounter = 2;
                         state = State.SplashScreen;
                     }
@@ -194,6 +235,7 @@ namespace SpaceShooter3
 
                     if (keyBoardCurrent.IsKeyDown(Keys.LeftShift) && keyBoardOld.IsKeyUp(Keys.LeftShift) &&  countFires > 0)
                     {
+                        fireSound.Play();
                         fires.Add(new Fire(
                             textureFire,
                             new Rectangle(
@@ -208,12 +250,14 @@ namespace SpaceShooter3
 
                     if (keyBoardCurrent.IsKeyDown(Keys.Tab) && keyBoardOld.IsKeyUp(Keys.Tab) && Score >= 5)
                     {
+                        buySound.Play();
                         countFires += 10;
                         Score -= 5;
                     }
 
                     if (spaceShip.Rectangle.Intersects(heart.Rectangle))
                     {
+                        heartSound.Play();
                         heart.WasEaten = true;
                         Score++;
                         countAsteroids++;
@@ -247,12 +291,14 @@ namespace SpaceShooter3
                         {
                             if (fire.Rectangle.Intersects(asteroid.Rectangle)) 
                             {
+                                boomSound.Play();
                                 fire.Intersected = true;
                                 asteroid.Intersected = true;
                             }
                         }
                         if (spaceShip.Rectangle.Intersects(asteroid.Rectangle) && asteroid.Intersected == false)
                         {
+                            intersectedSound.Play();
                             Score -= 2;
                             asteroid.Intersected = true;
                         }
@@ -268,6 +314,11 @@ namespace SpaceShooter3
             }
             keyBoardOld = keyBoardCurrent;
             base.Update(gameTime);
+        }
+
+        private void MediaPlayer_MediaStateChanged(object sender, System.EventArgs e)
+        {
+            MediaPlayer.Volume -= 0.1f;
         }
 
         protected override void Draw(GameTime gameTime)
