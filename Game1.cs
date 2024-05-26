@@ -68,10 +68,26 @@ namespace SpaceShooter3
         private SoundEffect menuSound;
         private SoundEffect enterSound;
         private SoundEffect intersectedSound;
-        private SoundEffect heartSound;
+        private SoundEffect bottleSound;
         private SoundEffect buySound;
 
         private Song gameSong;
+
+        private int heart = 3;
+        public int Heart
+        {
+            get
+            {
+                return heart;
+            }
+            set
+            {
+                if (value < 0)
+                    heart = 0;
+                else
+                    heart = value;
+            }
+        }
 
         public Game1()
         {
@@ -145,7 +161,7 @@ namespace SpaceShooter3
             menuSound = Content.Load<SoundEffect>("Sounds/menuSound");
             enterSound = Content.Load<SoundEffect>("Sounds/enterSound");
             intersectedSound = Content.Load<SoundEffect>("Sounds/intersectedSound");
-            heartSound = Content.Load<SoundEffect>("Sounds/heartSound");
+            bottleSound = Content.Load<SoundEffect>("Sounds/heartSound");
             buySound = Content.Load<SoundEffect>("Sounds/buySound");
             gameSong = Content.Load<Song>("Sounds/travaUDomaPlus");
         }
@@ -200,6 +216,18 @@ namespace SpaceShooter3
                     break;
 
                 case State.Game:
+                    if (Heart <= 0)
+                    {
+                        //state = State.GameOver;
+                        enterSound.Play();
+                        splashScreen.StartedAtFirstTime = true;
+                        splashScreen.LastScore = Score;
+                        if (Score > splashScreen.BestScore || splashScreen.BestScore == 0)
+                            splashScreen.BestScore = Score;
+                        splashScreen.OptionsCounter = 1;
+                        state = State.SplashScreen;
+                    }
+
                     if (keyBoardCurrent.IsKeyDown(Keys.Escape) && keyBoardOld.IsKeyUp(Keys.Escape)) 
                     {
                         enterSound.Play();
@@ -251,7 +279,7 @@ namespace SpaceShooter3
 
                     if (spaceShip.Rectangle.Intersects(bottle.Rectangle))
                     {
-                        heartSound.Play();
+                        bottleSound.Play();
                         bottle.WasEaten = true;
                         Score++;
                         countAsteroids++;
@@ -294,6 +322,7 @@ namespace SpaceShooter3
                         {
                             intersectedSound.Play();
                             Score -= 2;
+                            Heart -= 1;
                             asteroid.Intersected = true;
                         }
                     }
@@ -334,7 +363,7 @@ namespace SpaceShooter3
 
                     _spriteBatch.DrawString(
                         copyrightFont, 
-                        $"Hearts count: {Score} | Count fires {countFires}",
+                        $"Hearts: {Heart} | Bottle: {Score} | Fires {countFires}",
                         new Vector2(10, 5),
                         Color.White
                         );
@@ -395,6 +424,7 @@ namespace SpaceShooter3
             countFires = 10;
 
             score = 0;
+            heart = 3;
 
             foreach (var star in stars)
             {

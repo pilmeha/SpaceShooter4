@@ -1,5 +1,6 @@
 ﻿enum State
 {
     SplashScreen,
-    Game
+    Game,
+    GameOver
 }

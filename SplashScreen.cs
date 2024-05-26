@@ -16,6 +16,10 @@ namespace SpaceShooter3
         private string gameResume = "Resume";
         private string gameExit = "Exit";
         private string gameCopyright = "(c) Ayur Garmaev, 2024";
+        private string bestScore = "Best score!";
+        private string lastScore = "Last score:D";
+        public int BestScore { get; set; } = 0;
+        public int LastScore { get; set; } = 0;
         public MenuState MenuState { get; set; } = MenuState.New;
         public bool StartedAtFirstTime { get; set; } = true;
 
@@ -170,6 +174,57 @@ namespace SpaceShooter3
                     (graphics.PreferredBackBufferHeight / 100) * 106
                     ),
                 color
+                );
+
+
+            spriteBatch.DrawString(
+                SmallFont,
+                BestScore.ToString(),
+                new Vector2(
+                    (graphics.PreferredBackBufferWidth / 100) * 15,
+                    (graphics.PreferredBackBufferHeight / 100) * 15
+                    ),
+                color
+                );
+
+            spriteBatch.DrawString(
+                SmallFont,
+                bestScore,
+                new Vector2(
+                    (graphics.PreferredBackBufferWidth / 100) * 10,
+                    (graphics.PreferredBackBufferHeight / 100) * 25
+                    ),
+                color
+                );
+
+            spriteBatch.DrawString(
+                CopyrightFont,
+                LastScore.ToString(),
+                new Vector2(
+                    (graphics.PreferredBackBufferWidth / 100) * 75,
+                    (graphics.PreferredBackBufferHeight / 100) * 25
+                    ),
+                color,
+                0.6f,
+                new Vector2(0, 0),
+                1.5f,
+                SpriteEffects.None,
+                0.0f
+                );
+
+            spriteBatch.DrawString(
+                CopyrightFont,
+                lastScore,
+                new Vector2(
+                    (graphics.PreferredBackBufferWidth / 100) * 60,
+                    (graphics.PreferredBackBufferHeight / 100) * 15
+                    ),
+                color,
+                0.6f,
+                new Vector2(0, 0),
+                1.5f,
+                SpriteEffects.None,
+                0.0f
                 );
         }
     }
