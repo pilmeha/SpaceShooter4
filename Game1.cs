@@ -28,8 +28,8 @@ namespace SpaceShooter3
         private KeyboardState keyBoardCurrent;
         private KeyboardState keyBoardOld;
 
-        private Texture2D heartTexture;
-        private Heart heart;
+        private Texture2D bottleTexture;
+        private Bottle bottle;
 
         private int score = 0;
         public int Score
@@ -115,16 +115,16 @@ namespace SpaceShooter3
                 container
                 );
 
-            heartTexture = Content.Load<Texture2D>("Images/heart");
-            heart = new Heart(
-                heartTexture,
+            bottleTexture = Content.Load<Texture2D>("Images/bottle");
+            bottle = new Bottle(
+                bottleTexture,
                 new Rectangle(
                     0,
                     0,
-                    heartTexture.Width,
-                    heartTexture.Height
+                    bottleTexture.Width,
+                    bottleTexture.Height
                     ),
-                Position.ComputePositionForHeart(container)
+                Position.ComputePositionForBottle(container)
                 );
 
             textureBoom = Content.Load<Texture2D>("Images/boomAsteroid");
@@ -209,10 +209,10 @@ namespace SpaceShooter3
                     foreach (var star in stars)
                         star.Update();
 
-                    if (heart.WasEaten)
+                    if (bottle.WasEaten)
                     {
-                        heart.SetPosition(Position.ComputePositionForHeart(container));
-                        heart.WasEaten = false;
+                        bottle.SetPosition(Position.ComputePositionForBottle(container));
+                        bottle.WasEaten = false;
                     }
 
                     if (keyBoardCurrent.IsKeyDown(Keys.A) || Keyboard.GetState().IsKeyDown(Keys.Left))
@@ -249,10 +249,10 @@ namespace SpaceShooter3
                         Score -= 5;
                     }
 
-                    if (spaceShip.Rectangle.Intersects(heart.Rectangle))
+                    if (spaceShip.Rectangle.Intersects(bottle.Rectangle))
                     {
                         heartSound.Play();
-                        heart.WasEaten = true;
+                        bottle.WasEaten = true;
                         Score++;
                         countAsteroids++;
                     }
@@ -341,7 +341,7 @@ namespace SpaceShooter3
 
                     spaceShip.Draw(gameTime, _spriteBatch);
 
-                    _spriteBatch.Draw(heart.Texture, heart.Rectangle, Color.White);
+                    _spriteBatch.Draw(bottle.Texture, bottle.Rectangle, Color.White);
 
                     foreach (var asteroid in asteroids)
                     {

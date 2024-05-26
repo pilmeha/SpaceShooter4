@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SpaceShooter3
 {
-    internal class Heart
+    internal class Bottle
     {
         public Texture2D Texture { get; set; }
         private Rectangle rectangle;
@@ -45,13 +45,13 @@ namespace SpaceShooter3
 
         public bool WasEaten { get; set; } = false;
 
-        public Heart(Texture2D texture, Rectangle rectangle)
+        public Bottle(Texture2D texture, Rectangle rectangle)
         {
             Texture = texture;
             this.rectangle = rectangle;
         }
 
-        public Heart(Texture2D texture, Rectangle rectangle, Position position)
+        public Bottle(Texture2D texture, Rectangle rectangle, Position position)
         {
             Texture = texture;
             this.rectangle = rectangle;

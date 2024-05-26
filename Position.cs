@@ -36,7 +36,7 @@ namespace SpaceShooter3
                 );
         }
 
-        public static Position ComputePositionForHeart(Container container)
+        public static Position ComputePositionForBottle(Container container)
         {
             return new Position(
                 Random.Next(container.Width.X1, (container.Width.X2 / 3) * 2),
