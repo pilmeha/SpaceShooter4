@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace SpaceShooter3
 {
@@ -52,10 +53,48 @@ namespace SpaceShooter3
             }
         }
 
-        public void Update()
+        public void Update(GameState gameState)
         {
             color = Color.FromNonPremultiplied(255, 255, 255, timeCounter % 256);
             timeCounter++;
+
+            if (gameState.keyBoardCurrent.IsKeyDown(Keys.W) && gameState.keyBoardOld.IsKeyUp(Keys.W))
+            {
+                gameState.menuSound.Play();
+                OptionsCounter--;
+            }
+
+            if (gameState.keyBoardCurrent.IsKeyDown(Keys.S) && gameState.keyBoardOld.IsKeyUp(Keys.S))
+            {
+                gameState.menuSound.Play();
+                OptionsCounter++;
+            }
+
+            if (gameState.keyBoardCurrent.IsKeyDown(Keys.Enter) && gameState.keyBoardOld.IsKeyUp(Keys.Enter))
+            {
+
+                switch (MenuState)
+                {
+                    case MenuState.New:
+                        gameState.enterSound.Play();
+                        StartNewGame();
+                        gameState.state = State.Game;
+                        break;
+
+                    case MenuState.Resume:
+                        if (StartedAtFirstTime == false)
+                        {
+                            gameState.enterSound.Play();
+                            gameState.state = State.Game;
+                        }
+                        break;
+
+                    case MenuState.Exit:
+                        gameState.enterSound.Play();
+                        gameState.Exit();
+                        break;
+                }
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch, GraphicsDeviceManager graphics)

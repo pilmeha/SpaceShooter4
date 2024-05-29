@@ -11,7 +11,7 @@ namespace SpaceShooter3
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+        //private SpriteBatch _spriteBatch;
 
         private State state = State.SplashScreen;
 
@@ -89,6 +89,9 @@ namespace SpaceShooter3
             }
         }
 
+        private Texture2D heartTexture;
+        private GameState gameState;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -108,7 +111,8 @@ namespace SpaceShooter3
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            //_spriteBatch = new SpriteBatch(GraphicsDevice);
+            Globals.spriteBatch = new SpriteBatch(GraphicsDevice);
 
             splashScreenTexture = Content.Load<Texture2D>("Images/background");
             splashScreen.Backgorund = splashScreenTexture;
@@ -164,6 +168,12 @@ namespace SpaceShooter3
             bottleSound = Content.Load<SoundEffect>("Sounds/heartSound");
             buySound = Content.Load<SoundEffect>("Sounds/buySound");
             gameSong = Content.Load<Song>("Sounds/travaUDomaPlus");
+
+            heartTexture = Content.Load<Texture2D>("Images/heart");
+
+            gameState = new GameState();
+            gameState.enterSound = enterSound;
+            gameState.menuSound = menuSound;
         }
 
         protected override void Update(GameTime gameTime)
@@ -173,45 +183,46 @@ namespace SpaceShooter3
             {
                 case State.SplashScreen:
                     MediaPlayer.Play(gameSong);
-                    splashScreen.Update();
+                    //splashScreen.Update();
 
-                    if (keyBoardCurrent.IsKeyDown(Keys.W) && keyBoardOld.IsKeyUp(Keys.W))
-                    {
-                        menuSound.Play();
-                        splashScreen.OptionsCounter--; 
-                    }
+                    //if (keyBoardCurrent.IsKeyDown(Keys.W) && keyBoardOld.IsKeyUp(Keys.W))
+                    //{
+                    //    menuSound.Play();
+                    //    splashScreen.OptionsCounter--;
+                    //}
 
-                    if (keyBoardCurrent.IsKeyDown(Keys.S) && keyBoardOld.IsKeyUp(Keys.S))
-                    {
-                        menuSound.Play();
-                        splashScreen.OptionsCounter++;
-                    }
+                    //if (keyBoardCurrent.IsKeyDown(Keys.S) && keyBoardOld.IsKeyUp(Keys.S))
+                    //{
+                    //    menuSound.Play();
+                    //    splashScreen.OptionsCounter++;
+                    //}
 
-                    if (keyBoardCurrent.IsKeyDown(Keys.Enter) && keyBoardOld.IsKeyUp(Keys.Enter))
-                    {
-                        
-                        switch (splashScreen.MenuState)
-                        {
-                            case MenuState.New:
-                                enterSound.Play();
-                                StartNewGame();
-                                state = State.Game;
-                                break;
+                    //if (keyBoardCurrent.IsKeyDown(Keys.Enter) && keyBoardOld.IsKeyUp(Keys.Enter))
+                    //{
 
-                            case MenuState.Resume:
-                                if (splashScreen.StartedAtFirstTime == false)
-                                {
-                                    enterSound.Play();
-                                    state = State.Game; 
-                                }
-                                break;
+                    //    switch (splashScreen.MenuState)
+                    //    {
+                    //        case MenuState.New:
+                    //            enterSound.Play();
+                    //            StartNewGame();
+                    //            state = State.Game;
+                    //            break;
 
-                            case MenuState.Exit:
-                                enterSound.Play();
-                                Exit();
-                                break;
-                        }
-                    }
+                    //        case MenuState.Resume:
+                    //            if (splashScreen.StartedAtFirstTime == false)
+                    //            {
+                    //                enterSound.Play();
+                    //                state = State.Game;
+                    //            }
+                    //            break;
+
+                    //        case MenuState.Exit:
+                    //            enterSound.Play();
+                    //            Exit();
+                    //            break;
+                    //    }
+                    //}
+                    gameState.Draw();
 
                     break;
 
@@ -306,6 +317,11 @@ namespace SpaceShooter3
                         countAsteroids = 0;
                     }
 
+                    foreach (var fire in fires)
+                    {
+                        fire.Update();
+                    }
+
                     foreach (var asteroid in asteroids)
                     {
                         asteroid.Update();
@@ -347,53 +363,68 @@ namespace SpaceShooter3
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-            _spriteBatch.Begin();
+            //_spriteBatch.Begin();
+            Globals.spriteBatch.Begin();
+
             switch (state)
             {
                 case State.SplashScreen:
-                    splashScreen.Draw(_spriteBatch, _graphics);
+                    //splashScreen.Draw(_spriteBatch, _graphics);
+                    splashScreen.Draw(Globals.spriteBatch, _graphics);
                     break;
 
                 case State.Game:
 
                     foreach (var star in stars)
                     {
-                        _spriteBatch.Draw(Star.Texture, star.PositionVector, star.Color);
+                        //_spriteBatch.Draw(Star.Texture, star.PositionVector, star.Color);
+                        star.Draw();
                     }
 
-                    _spriteBatch.DrawString(
-                        copyrightFont, 
+                    //_spriteBatch.DrawString(
+                    //    copyrightFont, 
+                    //    $"Hearts: {Heart} | Bottle: {Score} | Fires {countFires}",
+                    //    new Vector2(10, 5),
+                    //    Color.White
+                    //    );
+
+                    Globals.spriteBatch.DrawString(
+                        copyrightFont,
                         $"Hearts: {Heart} | Bottle: {Score} | Fires {countFires}",
                         new Vector2(10, 5),
                         Color.White
                         );
 
-                    spaceShip.Draw(gameTime, _spriteBatch);
+                    spaceShip.Draw(gameTime, Globals.spriteBatch);//_spriteBatch);
 
-                    _spriteBatch.Draw(bottle.Texture, bottle.Rectangle, Color.White);
+                    //_spriteBatch.Draw(bottle.Texture, bottle.Rectangle, Color.White);
+                    bottle.Draw();
 
                     foreach (var asteroid in asteroids)
                     {
-                        _spriteBatch.Draw(
-                            asteroid.Texture,
-                            asteroid.Rectangle,
-                            Color.White
-                            );
+                        //_spriteBatch.Draw(
+                        //    asteroid.Texture,
+                        //    asteroid.Rectangle,
+                        //    Color.White
+                        //    );
+                        asteroid.Draw();
                     }
 
                     foreach (var fire in fires)
                     {
-                        fire.Update();
-                        _spriteBatch.Draw(
-                            fire.Texture,
-                            fire.Rectangle,
-                            null,
-                            Color.White,
-                            0f,
-                            new Vector2(fire.Texture.Width / 2, fire.Texture.Height / 2),
-                            SpriteEffects.None,
-                            0f
-                            );
+                        //fire.Update();
+
+                        //_spriteBatch.Draw(
+                        //    fire.Texture,
+                        //    fire.Rectangle,
+                        //    null,
+                        //    Color.White,
+                        //    0f,
+                        //    new Vector2(fire.Texture.Width / 2, fire.Texture.Height / 2),
+                        //    SpriteEffects.None,
+                        //    0f
+                        //    );
+                        fire.Draw();
                     }
 
                     foreach (var asteroid in asteroids.Reverse<Asteroid>())
@@ -404,7 +435,9 @@ namespace SpaceShooter3
 
                     break;
             }
-            _spriteBatch.End();
+
+            Globals.spriteBatch.End();
+            //_spriteBatch.End();
 
             base.Draw(gameTime);
         }

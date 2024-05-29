@@ -65,5 +65,15 @@ namespace SpaceShooter3
             X = position.X;
             Y = position.Y;
         }
+
+        public void Update()
+        {
+
+        }
+
+        public void Draw()
+        {
+            Globals.spriteBatch.Draw(Texture, Rectangle, Color.White);
+        }
     }
 }

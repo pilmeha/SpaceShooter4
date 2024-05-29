@@ -35,6 +35,11 @@ namespace SpaceShooter3
                 RandomSet();
         }
 
+        public void Draw()
+        {
+            Globals.spriteBatch.Draw(Star.Texture, positionVector, Color);
+        }
+
         public void RandomSet()
         {
             speed = Position.GetRandomInt(1, 4);

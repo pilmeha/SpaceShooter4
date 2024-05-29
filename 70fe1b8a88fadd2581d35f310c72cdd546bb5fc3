@@ -1,0 +1,95 @@
+[33mcommit 70fe1b8a88fadd2581d35f310c72cdd546bb5fc3[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: pilmeha <garmayev.ayur@inbox.ru>
+Date:   Mon May 27 00:22:23 2024 +0500
+
+    добавил вывод очков на главный экран
+
+[33mcommit ebf08598ff07dea2b7bb4d7adfcb8f2ec35b8159[m
+Author: pilmeha <garmayev.ayur@inbox.ru>
+Date:   Sun May 26 21:34:35 2024 +0500
+
+    добавил бутылку вместо сердца
+
+[33mcommit b5d7f949238dbca3ab66f8e43c24c44e19cbc187[m
+Author: pilmeha <garmayev.ayur@inbox.ru>
+Date:   Sun May 26 21:33:51 2024 +0500
+
+    изменил сердца на бутылку
+
+[33mcommit 9353871856fbefdc81ab2357258962f30c3dfe60[m
+Author: Ayur <garmayev.ayur@inbox.ru>
+Date:   Sun May 19 23:51:38 2024 +0500
+
+    добавил одну песню в игру
+
+[33mcommit 942bbb1e5e8b7f6c12e26196f832123b4461def8[m
+Author: Ayur <garmayev.ayur@inbox.ru>
+Date:   Sun May 19 22:50:14 2024 +0500
+
+    добавил звуковые эффекты
+
+[33mcommit 909c02e8078a16fbde0a1b10954504e27af57434[m
+Author: Ayur <garmayev.ayur@inbox.ru>
+Date:   Fri May 17 13:58:59 2024 +0500
+
+    доработал всякие штуки
+
+[33mcommit b283bdfc258acca23e1aaf85ee5d552a5c0717e2[m
+Author: Ayur <garmayev.ayur@inbox.ru>
+Date:   Fri May 17 13:49:31 2024 +0500
+
+    добавил прикольный стиль
+
+[33mcommit 918403b4fb600fa6e7b667d954452c4e7564e597[m
+Author: Ayur <garmayev.ayur@inbox.ru>
+Date:   Fri May 17 13:19:42 2024 +0500
+
+    усовершенствовал меню, добавив разные шрифты и разные кнопки
+
+[33mcommit 9562f2e743a7f98777c694e4978445e2055f152e[m
+Author: Ayur <garmayev.ayur@inbox.ru>
+Date:   Fri May 17 00:44:50 2024 +0500
+
+    сделал так чтобы астероиды летели разного размера
+
+[33mcommit 9f9fea86d42e250cc2e5afabe1e3edc193e297b0[m
+Author: Ayur <garmayev.ayur@inbox.ru>
+Date:   Fri May 17 00:25:53 2024 +0500
+
+    добавил задний фон в виде звезд
+
+[33mcommit 6ada3510fe4439a0c2ffba612271d02a62f3231e[m
+Author: Ayur <garmayev.ayur@inbox.ru>
+Date:   Thu May 16 17:01:07 2024 +0500
+
+    добавил пули, и счетчик пуль
+
+[33mcommit ef80b244dcaea05d193e3726bc701bbb650e2b14[m
+Author: Ayur <garmayev.ayur@inbox.ru>
+Date:   Thu May 16 15:26:38 2024 +0500
+
+    добавил астероиды
+
+[33mcommit 6be472373c4e0348fca6228f1ef6263dbef0fda1[m
+Author: Ayur <garmayev.ayur@inbox.ru>
+Date:   Wed May 15 13:40:26 2024 +0500
+
+    добавил сердечки
+
+[33mcommit 2b89f76720e173eb2c54d6782e40b4d9ec3b6beb[m[33m ([m[1;32mspaceShip[m[33m)[m
+Author: Ayur <garmayev.ayur@inbox.ru>
+Date:   Tue May 14 21:02:38 2024 +0500
+
+    добавил космический корабль, которым можно управлять
+
+[33mcommit 0b6333c68c6499ad2712aba89b998a1601f2b111[m[33m ([m[1;31morigin/spaceShip[m[33m)[m
+Author: Ayur <garmayev.ayur@inbox.ru>
+Date:   Tue May 14 18:18:53 2024 +0500
+
+    Добавьте файлы проекта.
+
+[33mcommit f26160a77430ab111a94cd588279d044e2da5b16[m
+Author: Ayur <garmayev.ayur@inbox.ru>
+Date:   Tue May 14 18:18:50 2024 +0500
+
+    Добавить .gitattributes и .gitignore.

@@ -9,7 +9,8 @@ namespace SpaceShooter3
         private int speed = 5;
         private Texture2D textureBoom;
         private Texture2D textureAsteroid;
-
+        //public float Rotation { get; set; } = 0;
+        //public float RotationSpeed { get; set; } = (float)(Position.Random.NextDouble() - 0.5) / 2;
         public Texture2D Texture 
         {
             get
@@ -70,6 +71,7 @@ namespace SpaceShooter3
         public void Update()
         {
             X -= speed;
+            //Rotation += RotationSpeed;
             if (X < Container.Width.X1 - 200)
             {
                 this.SetPosition(Position.CumputePositionForAsteroid(Container));
@@ -77,10 +79,16 @@ namespace SpaceShooter3
             }
         }
 
+        public void Draw()
+        {
+            Globals.spriteBatch.Draw(Texture, Rectangle, Color.White);
+        }
+
         public void SetPosition(Position position)
         {
             X = position.X;
             Y = position.Y;
+            //RotationSpeed = (float)(Position.Random.NextDouble() - 0.5) / 2;
             var asteroidSize = Position.GetRandomInt(
                 textureAsteroid.Width / 5,
                 (int)(textureAsteroid.Width * 1.5)

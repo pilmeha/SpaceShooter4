@@ -63,19 +63,18 @@ namespace SpaceShooter3
             X += speed;
         }
 
-        //public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
-        //{
-        //    X += speed;
-        //    //spriteBatch.Draw(
-        //    //    Texture,
-        //    //    Rectangle,
-        //    //    null,
-        //    //    Color.White,
-        //    //    0f,
-        //    //    new Vector2(Texture.Width / 2, Texture.Height / 2),
-        //    //    SpriteEffects.None,
-        //    //    0f
-        //    //    );
-        //}
+        public void Draw()
+        {
+            Globals.spriteBatch.Draw(
+                Texture,
+                Rectangle,
+                null,
+                Color.White,
+                0f,
+                new Vector2(Texture.Width / 2, Texture.Height / 2),
+                SpriteEffects.None,
+                0f
+                );
+        }
     }
 }
