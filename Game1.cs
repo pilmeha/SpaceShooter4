@@ -17,9 +17,6 @@ namespace SpaceShooter3
 
         private SpaceShip spaceShip;
 
-        private KeyboardState keyBoardCurrent;
-        private KeyboardState keyBoardOld;
-
         private Bottle bottle;
         private int score = 0;
         public int Score
@@ -101,7 +98,6 @@ namespace SpaceShooter3
 
         protected override void Update(GameTime gameTime)
         {
-            keyBoardCurrent = Keyboard.GetState();
             Input.Update();
             switch (state)
             {
@@ -116,19 +112,19 @@ namespace SpaceShooter3
                     catch { }
                     splashScreen.Update();
 
-                    if (keyBoardCurrent.IsKeyDown(Keys.W) && keyBoardOld.IsKeyUp(Keys.W))
+                    if (Input.keyboardState.IsKeyDown(Keys.W) && Input.lastKeyboardState.IsKeyUp(Keys.W))
                     {
                         Sound.MenuSound.Play();
                         splashScreen.OptionsCounter--; 
                     }
 
-                    if (keyBoardCurrent.IsKeyDown(Keys.S) && keyBoardOld.IsKeyUp(Keys.S))
+                    if (Input.keyboardState.IsKeyDown(Keys.S) && Input.lastKeyboardState.IsKeyUp(Keys.S))
                     {
                         Sound.MenuSound.Play();
                         splashScreen.OptionsCounter++;
                     }
 
-                    if (keyBoardCurrent.IsKeyDown(Keys.Enter) && keyBoardOld.IsKeyUp(Keys.Enter))
+                    if (Input.keyboardState.IsKeyDown(Keys.Enter) && Input.lastKeyboardState.IsKeyUp(Keys.Enter))
                     {
                         
                         switch (splashScreen.MenuState)
@@ -167,7 +163,7 @@ namespace SpaceShooter3
                         state = State.SplashScreen;
                     }
 
-                    if (keyBoardCurrent.IsKeyDown(Keys.Escape) && keyBoardOld.IsKeyUp(Keys.Escape)) 
+                    if (Input.keyboardState.IsKeyDown(Keys.Escape) && Input.lastKeyboardState.IsKeyUp(Keys.Escape)) 
                     {
                         Sound.EnterSound.Play();
                         splashScreen.OptionsCounter = 2;
@@ -184,7 +180,7 @@ namespace SpaceShooter3
 
                     spaceShip.Update();
 
-                    if (keyBoardCurrent.IsKeyDown(Keys.LeftShift) && keyBoardOld.IsKeyUp(Keys.LeftShift) &&  countFires > 0)
+                    if (Input.keyboardState.IsKeyDown(Keys.LeftShift) && Input.lastKeyboardState.IsKeyUp(Keys.LeftShift) &&  countFires > 0)
                     {
                         Sound.FireSound.Play();
                         fires.Add(new Fire(new Rectangle(spaceShip.X + 95,
@@ -194,7 +190,7 @@ namespace SpaceShooter3
                         countFires--;
                     }
 
-                    if (keyBoardCurrent.IsKeyDown(Keys.Tab) && keyBoardOld.IsKeyUp(Keys.Tab) && Score >= 5)
+                    if (Input.keyboardState.IsKeyDown(Keys.Tab) && Input.lastKeyboardState.IsKeyUp(Keys.Tab) && Score >= 5)
                     {
                         Sound.BuySound.Play();
                         countFires += 10;
@@ -256,7 +252,6 @@ namespace SpaceShooter3
                     }
                     break;
             }
-            keyBoardOld = keyBoardCurrent;
             base.Update(gameTime);
         }
 
