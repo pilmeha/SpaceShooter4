@@ -6,7 +6,6 @@ namespace SpaceShooter3
 {
     internal class Asteroid
     {
-        public Container Container { get; set; }
         private int speed = 5;
 
         public Texture2D Texture 
@@ -55,21 +54,19 @@ namespace SpaceShooter3
             }
         }
 
-        public Asteroid(Rectangle rectangle, Position position, Container container)
+        public Asteroid(Rectangle rectangle, Position position)
         {
             this.rectangle = rectangle;
             X = position.X;
             Y = position.Y;
-
-            Container = container;
         }
 
         public void Update()
         {
             X -= speed;
-            if (X < Container.Width.X1 - 200)
+            if (X < Globals.Container.Width.X1 - 200)
             {
-                this.SetPosition(Position.CumputePositionForAsteroid(Container));
+                this.SetPosition(Position.CumputePositionForAsteroid());
                 this.Intersected = false;
             }
         }

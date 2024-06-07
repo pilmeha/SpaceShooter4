@@ -50,9 +50,9 @@ namespace SpaceShooter3
             Rectangle = rectangle;
         }
 
-        public bool IsOutOfScreen(Container container)
+        public bool IsOutOfScreen()
         {
-            if (X > container.Width.X2 || X < container.Width.X1 || Y > container.Height.X2 || Y < container.Height.X1 || this.Intersected)
+            if (X > Globals.Container.Width.X2 || X < Globals.Container.Width.X1 || Y > Globals.Container.Height.X2 || Y < Globals.Container.Height.X1 || this.Intersected)
                 return true;
             return false;
         }

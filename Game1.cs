@@ -15,7 +15,6 @@ namespace SpaceShooter3
 
         private State state = State.SplashScreen;
 
-        private Container container;
         private SpaceShip spaceShip;
 
         private KeyboardState keyBoardCurrent;
@@ -68,11 +67,7 @@ namespace SpaceShooter3
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-
-            container = new Container(
-                new Line(0, _graphics.PreferredBackBufferWidth),
-                new Line(0, _graphics.PreferredBackBufferHeight)
-                );
+            Globals.Load(_graphics);
         }
 
         protected override void Initialize()
@@ -86,27 +81,17 @@ namespace SpaceShooter3
             Art.Load(Content);
             Sound.Load(Content);
 
-            spaceShip = new SpaceShip(
-                new Rectangle(
-                    0, 
+            spaceShip = new SpaceShip(new Rectangle(0, 
                     _graphics.PreferredBackBufferHeight / 2,
                     Art.SpaceShipTexture.Width,
-                    Art.SpaceShipTexture.Height
-                    ),
-                container
-                );
+                    Art.SpaceShipTexture.Height));
 
-            bottle = new Bottle(
-                new Rectangle(
-                    0,
+            bottle = new Bottle(new Rectangle(0,
                     0,
                     Art.BottleTexture.Width,
-                    Art.BottleTexture.Height
-                    ),
-                Position.ComputePositionForBottle(container)
-                );
+                    Art.BottleTexture.Height),
+                Position.ComputePositionForBottle());
 
-            Star.Container = container;
             for (int i = 0; i < stars.Length; i++)
             {
                 stars[i] = new Star();
@@ -192,7 +177,7 @@ namespace SpaceShooter3
 
                     if (bottle.WasEaten)
                     {
-                        bottle.SetPosition(Position.ComputePositionForBottle(container));
+                        bottle.SetPosition(Position.ComputePositionForBottle());
                         bottle.WasEaten = false;
                     }
 
@@ -201,14 +186,10 @@ namespace SpaceShooter3
                     if (keyBoardCurrent.IsKeyDown(Keys.LeftShift) && keyBoardOld.IsKeyUp(Keys.LeftShift) &&  countFires > 0)
                     {
                         Sound.FireSound.Play();
-                        fires.Add(new Fire(
-                            new Rectangle(
-                                spaceShip.X + 95,
+                        fires.Add(new Fire(new Rectangle(spaceShip.X + 95,
                                 spaceShip.Y + 25,
                                 Art.TextureFire.Width,
-                                Art.TextureFire.Height
-                                )
-                            ));
+                                Art.TextureFire.Height)));
                         countFires--;
                     }
 
@@ -233,16 +214,11 @@ namespace SpaceShooter3
                             Art.TextureAsteroid.Width / 5,
                             (int)(Art.TextureAsteroid.Width * 1.5)
                             );
-                        asteroids.Add(new Asteroid(
-                        new Rectangle(
-                            0,
-                            0,
-                            asteroidSize,
-                            asteroidSize
-                            ),
-                        Position.CumputePositionForAsteroid(container),
-                        container
-                        ));
+                        asteroids.Add(new Asteroid(new Rectangle(0,
+                                    0,
+                                    asteroidSize,
+                                    asteroidSize),
+                                Position.CumputePositionForAsteroid()));
                         countAsteroids = 0;
                     }
 
@@ -274,7 +250,7 @@ namespace SpaceShooter3
 
                     foreach (var fire in fires.Reverse<Fire>())
                     {
-                        if (fire.IsOutOfScreen(container))
+                        if (fire.IsOutOfScreen())
                             fires.Remove(fire);
                     }
                     break;

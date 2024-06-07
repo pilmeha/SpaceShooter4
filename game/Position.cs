@@ -15,11 +15,11 @@ namespace SpaceShooter3.game
 
         public static Random Random = new Random();
 
-        public static Position ComputePosition(Container container)
+        public static Position ComputePosition()
         {
             return new Position(
-                Random.Next(container.Width.X1, container.Width.X2),
-                Random.Next(container.Height.X1, container.Height.X2)
+                Random.Next(Globals.Container.Width.X1, Globals.Container.Width.X2),
+                Random.Next(Globals.Container.Height.X1, Globals.Container.Height.X2)
                 );
         }
 
@@ -28,19 +28,19 @@ namespace SpaceShooter3.game
             return Random.Next(min, max);
         }
 
-        public static Position CumputePositionForAsteroid(Container container)
+        public static Position CumputePositionForAsteroid()
         {
             return new Position(
-                Random.Next(container.Width.X2, container.Width.X2 + 150),
-                Random.Next(container.Height.X1 - 100, container.Height.X2 - 100)
+                Random.Next(Globals.Container.Width.X2, Globals.Container.Width.X2 + 150),
+                Random.Next(Globals.Container.Height.X1 - 100, Globals.Container.Height.X2 - 100)
                 );
         }
 
-        public static Position ComputePositionForBottle(Container container)
+        public static Position ComputePositionForBottle()
         {
             return new Position(
-                Random.Next(container.Width.X1, container.Width.X2 / 3 * 2),
-                Random.Next(container.Height.X1 - 10, container.Height.X2 - 10)
+                Random.Next(Globals.Container.Width.X1, Globals.Container.Width.X2 / 3 * 2),
+                Random.Next(Globals.Container.Height.X1 - 10, Globals.Container.Height.X2 - 10)
                 );
         }
 

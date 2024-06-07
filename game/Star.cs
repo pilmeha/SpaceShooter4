@@ -19,8 +19,7 @@ namespace SpaceShooter3
             }
         }
         public Color Color { get; set; }
-        private int speed;
-        public static Container Container { get; set; }        
+        private int speed;    
 
         public Star()
         {
@@ -43,8 +42,8 @@ namespace SpaceShooter3
         {
             speed = Position.GetRandomInt(1, 4);
             positionVector = new Vector2(
-                Position.GetRandomInt(Container.Width.X2, Container.Width.X2 + 300), 
-                Position.GetRandomInt(0, Container.Height.X2)
+                Position.GetRandomInt(Globals.Container.Width.X2, Globals.Container.Width.X2 + 300), 
+                Position.GetRandomInt(0, Globals.Container.Height.X2)
                 );
 
             Color = Color.FromNonPremultiplied(
