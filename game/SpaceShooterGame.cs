@@ -105,7 +105,7 @@ namespace SpaceShooter3.game
                     if (Input.keyboardState.IsKeyDown(Keys.Enter) && Input.lastKeyboardState.IsKeyUp(Keys.Enter))
                     {
 
-                        switch (splashScreen.MenuState)
+                        switch (SplashScreen.MenuState)
                         {
                             case MenuState.New:
                                 Sound.EnterSound.Play();
@@ -123,7 +123,7 @@ namespace SpaceShooter3.game
 
                             case MenuState.Exit:
                                 Sound.EnterSound.Play();
-                                Exit();
+                                //выход происходит в классе Game1, метода Update().
                                 break;
                         }
                     }

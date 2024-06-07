@@ -18,7 +18,7 @@ namespace SpaceShooter3
         private string lastScore = "Last score:D";
         public int BestScore { get; set; } = 0;
         public int LastScore { get; set; } = 0;
-        public MenuState MenuState { get; set; } = MenuState.New;
+        public static MenuState MenuState { get; set; } = MenuState.New;
         public bool StartedAtFirstTime { get; set; } = true;
 
         private int optionsCounter = 1;

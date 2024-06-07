@@ -39,13 +39,10 @@ namespace SpaceShooter3
         {
             Input.Update();
             game.Update();
-
+            if (Input.keyboardState.IsKeyDown(Keys.Enter) && Input.lastKeyboardState.IsKeyUp(Keys.Enter))
+                if (SplashScreen.MenuState == MenuState.Exit)
+                    Exit();
             base.Update(gameTime);
-        }
-
-        private void MediaPlayer_MediaStateChanged(object sender, System.EventArgs e)
-        {
-            MediaPlayer.Volume -= 0.1f;
         }
 
         protected override void Draw(GameTime gameTime)
