@@ -1,11 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceShooter3.game;
 
 namespace SpaceShooter3
 {
     internal class Bottle
     {
-        public Texture2D Texture { get; set; }
         private Rectangle rectangle;
         public Rectangle Rectangle
         {
@@ -45,15 +45,8 @@ namespace SpaceShooter3
 
         public bool WasEaten { get; set; } = false;
 
-        public Bottle(Texture2D texture, Rectangle rectangle)
+        public Bottle(Rectangle rectangle, Position position)
         {
-            Texture = texture;
-            this.rectangle = rectangle;
-        }
-
-        public Bottle(Texture2D texture, Rectangle rectangle, Position position)
-        {
-            Texture = texture;
             this.rectangle = rectangle;
 
             X = position.X;
@@ -73,7 +66,7 @@ namespace SpaceShooter3
 
         public void Draw()
         {
-            Globals.spriteBatch.Draw(Texture, Rectangle, Color.White);
+
         }
     }
 }

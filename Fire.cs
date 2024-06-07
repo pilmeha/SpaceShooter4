@@ -1,12 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceShooter3.game;
 
 namespace SpaceShooter3
 {
     internal class Fire
     {
         private int speed = 5;
-        public Texture2D Texture { get; set; }
         private Rectangle rectangle;
         public Rectangle Rectangle
         {
@@ -45,9 +45,8 @@ namespace SpaceShooter3
         }
         public bool Intersected { get; set; } = false;
 
-        public Fire(Texture2D texture, Rectangle rectangle)
+        public Fire(Rectangle rectangle)
         {
-            Texture = texture;
             Rectangle = rectangle;
         }
 
@@ -61,20 +60,6 @@ namespace SpaceShooter3
         public void Update()
         {
             X += speed;
-        }
-
-        public void Draw()
-        {
-            Globals.spriteBatch.Draw(
-                Texture,
-                Rectangle,
-                null,
-                Color.White,
-                0f,
-                new Vector2(Texture.Width / 2, Texture.Height / 2),
-                SpriteEffects.None,
-                0f
-                );
         }
     }
 }
