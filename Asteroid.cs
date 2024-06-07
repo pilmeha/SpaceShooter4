@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceShooter3.game;
 
 namespace SpaceShooter3
 {
@@ -7,16 +8,14 @@ namespace SpaceShooter3
     {
         public Container Container { get; set; }
         private int speed = 5;
-        private Texture2D textureBoom;
-        private Texture2D textureAsteroid;
 
         public Texture2D Texture 
         {
             get
             {
                 if (Intersected)
-                    return textureBoom;
-                return textureAsteroid;
+                    return Art.TextureBoom;
+                return Art.TextureAsteroid;
             }     
         }
         public bool Intersected { get; set; } = false;
@@ -56,10 +55,8 @@ namespace SpaceShooter3
             }
         }
 
-        public Asteroid(Texture2D textureBoom, Texture2D textureAsteroid, Rectangle rectangle, Position position, Container container)
+        public Asteroid(Rectangle rectangle, Position position, Container container)
         {
-            this.textureBoom = textureBoom;
-            this.textureAsteroid = textureAsteroid;
             this.rectangle = rectangle;
             X = position.X;
             Y = position.Y;
@@ -82,8 +79,8 @@ namespace SpaceShooter3
             X = position.X;
             Y = position.Y;
             var asteroidSize = Position.GetRandomInt(
-                textureAsteroid.Width / 5,
-                (int)(textureAsteroid.Width * 1.5)
+                Art.TextureAsteroid.Width / 5,
+                (int)(Art.TextureAsteroid.Width * 1.5)
                 );
             this.rectangle.Width = asteroidSize;
             this.rectangle.Height = asteroidSize;

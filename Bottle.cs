@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceShooter3.game;
 
 namespace SpaceShooter3
 {
@@ -45,15 +46,8 @@ namespace SpaceShooter3
 
         public bool WasEaten { get; set; } = false;
 
-        public Bottle(Texture2D texture, Rectangle rectangle)
+        public Bottle(Rectangle rectangle, Position position)
         {
-            Texture = texture;
-            this.rectangle = rectangle;
-        }
-
-        public Bottle(Texture2D texture, Rectangle rectangle, Position position)
-        {
-            Texture = texture;
             this.rectangle = rectangle;
 
             X = position.X;
@@ -64,6 +58,16 @@ namespace SpaceShooter3
         {
             X = position.X;
             Y = position.Y;
+        }
+
+        public void Update()
+        {
+
+        }
+
+        public void Draw()
+        {
+
         }
     }
 }

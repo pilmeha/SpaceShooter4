@@ -1,16 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceShooter3.game;
 
 namespace SpaceShooter3
 {
     internal class SplashScreen
     {
-        public Texture2D Backgorund {  get; set; }
         private int timeCounter = 0;
         private Color color;
-        public SpriteFont BigFont {  get; set; }
-        public SpriteFont SmallFont { get; set; }
-        public SpriteFont CopyrightFont { get; set; }
         private string gameTitle = "SpaceShooter!";
         private string gameNew = "New";
         private string gameResume = "Resume";
@@ -61,13 +58,13 @@ namespace SpaceShooter3
         public void Draw(SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
         {
             spriteBatch.Draw(
-                Backgorund,
+                Art.SplashScreenTexture,
                 new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight),
                 Color.White
                 );
 
             spriteBatch.DrawString(
-                BigFont,
+                Art.BigFont,
                 gameTitle,
                 new Vector2(
                     ((graphics.PreferredBackBufferWidth / 100) * 11),
@@ -79,7 +76,7 @@ namespace SpaceShooter3
             if (MenuState == MenuState.New)
             {
                 spriteBatch.DrawString(
-                    SmallFont,
+                    Art.SmallFont,
                     gameNew,
                     new Vector2(
                         (graphics.PreferredBackBufferWidth / 100) * 50,
@@ -91,7 +88,7 @@ namespace SpaceShooter3
             else
             {
                 spriteBatch.DrawString(
-                    SmallFont,
+                    Art.SmallFont,
                     gameNew,
                     new Vector2(
                         (graphics.PreferredBackBufferWidth / 100) * 50,
@@ -104,7 +101,7 @@ namespace SpaceShooter3
             if (StartedAtFirstTime)
             {
                 spriteBatch.DrawString(
-                    SmallFont,
+                    Art.SmallFont,
                     gameResume,
                     new Vector2(
                         (graphics.PreferredBackBufferWidth / 100) * 50,
@@ -118,7 +115,7 @@ namespace SpaceShooter3
                 if (MenuState == MenuState.Resume)
                 {
                     spriteBatch.DrawString(
-                        SmallFont,
+                        Art.SmallFont,
                         gameResume,
                         new Vector2(
                             (graphics.PreferredBackBufferWidth / 100) * 50,
@@ -130,7 +127,7 @@ namespace SpaceShooter3
                 else
                 {
                     spriteBatch.DrawString(
-                        SmallFont,
+                        Art.SmallFont,
                         gameResume,
                         new Vector2(
                             (graphics.PreferredBackBufferWidth / 100) * 50,
@@ -144,7 +141,7 @@ namespace SpaceShooter3
             if (MenuState == MenuState.Exit)
             {
                 spriteBatch.DrawString(
-                    SmallFont,
+                    Art.SmallFont,
                     gameExit,
                     new Vector2(
                         (graphics.PreferredBackBufferWidth / 100) * 50,
@@ -156,7 +153,7 @@ namespace SpaceShooter3
             else
             {
                 spriteBatch.DrawString(
-                    SmallFont,
+                    Art.SmallFont,
                     gameExit,
                     new Vector2(
                         (graphics.PreferredBackBufferWidth / 100) * 50,
@@ -167,7 +164,7 @@ namespace SpaceShooter3
             }
 
             spriteBatch.DrawString(
-                CopyrightFont,
+                Art.CopyrightFont,
                 gameCopyright,
                 new Vector2(
                     (graphics.PreferredBackBufferWidth / 100) * 50,
@@ -178,7 +175,7 @@ namespace SpaceShooter3
 
 
             spriteBatch.DrawString(
-                SmallFont,
+                Art.SmallFont,
                 BestScore.ToString(),
                 new Vector2(
                     (graphics.PreferredBackBufferWidth / 100) * 15,
@@ -188,7 +185,7 @@ namespace SpaceShooter3
                 );
 
             spriteBatch.DrawString(
-                SmallFont,
+                Art.SmallFont,
                 bestScore,
                 new Vector2(
                     (graphics.PreferredBackBufferWidth / 100) * 10,
@@ -198,7 +195,7 @@ namespace SpaceShooter3
                 );
 
             spriteBatch.DrawString(
-                CopyrightFont,
+                Art.CopyrightFont,
                 LastScore.ToString(),
                 new Vector2(
                     (graphics.PreferredBackBufferWidth / 100) * 75,
@@ -213,7 +210,7 @@ namespace SpaceShooter3
                 );
 
             spriteBatch.DrawString(
-                CopyrightFont,
+                Art.CopyrightFont,
                 lastScore,
                 new Vector2(
                     (graphics.PreferredBackBufferWidth / 100) * 60,

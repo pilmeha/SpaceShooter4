@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceShooter3.game;
 
 namespace SpaceShooter3
 {
@@ -19,9 +20,7 @@ namespace SpaceShooter3
         }
         public Color Color { get; set; }
         private int speed;
-        public static Container Container { get; set; }
-        public static Texture2D Texture { get; set; }
-        
+        public static Container Container { get; set; }        
 
         public Star()
         {
