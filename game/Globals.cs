@@ -9,7 +9,6 @@ namespace SpaceShooter3
     internal class Globals
     {
         public static SpriteBatch spriteBatch;
-        public static int WIDTH = 700, HEIGHT = 580;
         public static Container Container { get; private set; }
 
         public static void Load(GraphicsDeviceManager graphics)

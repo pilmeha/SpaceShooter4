@@ -102,6 +102,7 @@ namespace SpaceShooter3
         protected override void Update(GameTime gameTime)
         {
             keyBoardCurrent = Keyboard.GetState();
+            Input.Update();
             switch (state)
             {
                 case State.SplashScreen:
