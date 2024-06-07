@@ -7,7 +7,7 @@ namespace SpaceShooter3
 {
     internal class SpaceShip
     {
-        public static int Speed { get; set; } = 8;
+        public static int Speed { get; private set; } = 8;
         private Rectangle rectangle;
         public Rectangle Rectangle 
         { 
@@ -52,7 +52,6 @@ namespace SpaceShooter3
 
         public void Update()
         {
-            //KeyboardState kstate = Keyboard.GetState();
             if (Input.keyboardState.IsKeyDown(Keys.A) && X > 0)
                 X -= Speed;
 
